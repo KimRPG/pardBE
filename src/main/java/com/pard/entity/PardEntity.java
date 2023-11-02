@@ -27,7 +27,7 @@ public class PardEntity {
         this.name = dto.getName();
         this.age = dto.getAge();
         this.part = dto.getPart();
-        this.imgURL = dto.getImgURL();
+//        this.imgURL = imgURL;
     }
 
 }
