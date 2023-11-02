@@ -31,7 +31,7 @@ public class PardController {
     @PostMapping("/join")
     @Operation(summary = "파드에 가입(Create)하기 위한 메소드", description = "\"URL/pard/join\"으로 json파일을 보내면 생성됨")
     @ResponseStatus(HttpStatus.CREATED)
-    @ApiResponse(description = "똑같은 이름으로 가입할 수 없다. 가입이 된다면 \"PARD 합격을 축하해요\"와 정보가 뜬다.")
+    @ApiResponse(description = "똑같은 이름으로 가입할 수 없다. 가입이 된다면 \"PARD 합격을 축하해요\"와 정보가 뜬다., 만약 파트이름을 한글로 적을 경우 fail임")
     public ResponseDto<PardEntity> join(@RequestBody JoinDto dto) {
         ResponseDto<PardEntity> result = pardService.joinPard(dto);
         return result;
@@ -78,6 +78,13 @@ public class PardController {
     @ApiResponse(description = "요청이 정상적이라면,  \"name + PARD 탈퇴!!\"이란 말과 함께 그사람의 정보가 삭제된다. 만약 name이 없을 경우 \"그딴이름 없음!\"란 말을 반환함")
     public ResponseDto<?> deleteV2(@RequestParam String name){
         ResponseDto<?> result = pardService.deletePard(name);
+        return result;
+    }
+    @GetMapping("/search/part/{part}")
+    @Operation(summary = "파드에 가입한 사람들 중 특정 파트에 읽어(Read)오기 위한 메소드", description = "\"URL/pard/search/part/part_이름\"으로 요청을 보내면 그파트의 대한 데이터를 보내줌")
+    @ApiResponse(description = "요청이 정상적이라면, \"part + 파트 사람들\"이란 말과 함께 그 파트의 정보가 뜬다. 만약 파트가 없을 경우 \"그딴파트없음!\"란 말을 반환함, 한글로 쓸 경우 \"한글로 쓰지마세요!\"라고 반환함")
+    public ResponseDto<List<PardEntity>> searchPart(@PathVariable String part){
+        ResponseDto<List<PardEntity>> result = pardService.searchPartPard(part);
         return result;
     }
 }

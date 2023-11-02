@@ -28,6 +28,10 @@ public class PardService {
 //, MultipartFile multipartFile
     public ResponseDto<PardEntity> joinPard(JoinDto joinDto) {
         //String imageUrl = s3UploadService.saveFile(multipartFile);
+        String part = joinDto.getPart();
+        if (part.matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*")) {
+            return ResponseDto.setFailed("파트 이름에 한글은 사용할 수 없습니다.");
+        }
         String name = joinDto.getName();
         PardEntity pard = new PardEntity(joinDto);
         if (!pardRepository.existsById(name)) {
@@ -73,5 +77,20 @@ public class PardService {
             return ResponseDto.setSuccess(name + " PARD 탈퇴!!", null);
         }
         return ResponseDto.setFailed("그딴이름 없음");
+    }
+
+    public ResponseDto<List<PardEntity>> searchPartPard(String part){
+        if (part.matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*")) {
+            return ResponseDto.setFailed("파트 이름에 한글은 사용할 수 없습니다.");
+        }
+        if (pardRepository.existsByPart(part)) {
+            List<PardEntity> pard = pardRepository.findByPart(part);
+            return ResponseDto.setSuccess(part + " 파트 사람들", pard);
+        }
+        else{
+            return ResponseDto.setFailed("그딴파트 없음");
+        }
+
+
     }
 }
