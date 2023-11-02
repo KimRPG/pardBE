@@ -29,7 +29,7 @@ public class PardService {
         //String imageUrl = s3UploadService.saveFile(multipartFile);
         String name = joinDto.getName();
         PardEntity pard = new PardEntity(joinDto);
-        if (pardRepository.existsById(name)) {
+        if (!pardRepository.existsById(name)) {
             pardRepository.save(pard);
             return ResponseDto.setSuccess("축하한다.", pard);
         }else{
@@ -53,6 +53,7 @@ public class PardService {
         if (pardRepository.existsById(name)) {
             PardEntity pard = pardRepository.findByName(name);
             if (joinDto.getName() != null && !joinDto.getName().isEmpty())pard.setName(joinDto.getName());
+            if(joinDto.getAge() !=0) pard.setAge(joinDto.getAge());
             if (joinDto.getPart() != null && !joinDto.getPart().isEmpty())pard.setPart(joinDto.getPart());
             if (joinDto.getImgURL() != null && !joinDto.getImgURL().isEmpty())pard.setImgURL(joinDto.getImgURL());
             return ResponseDto.setSuccess("업데이트됨", pard);
@@ -68,11 +69,8 @@ public class PardService {
     public ResponseDto<?> deletePard(String name){
         if (pardRepository.existsById(name)) {
             pardRepository.deleteById(name);
-            return ResponseDto.setSuccess("PARD 탈퇴!!", null);
+            return ResponseDto.setSuccess(name + " PARD 탈퇴!!", null);
         }
         return ResponseDto.setFailed("그딴이름 없음");
-
-
-
     }
 }
