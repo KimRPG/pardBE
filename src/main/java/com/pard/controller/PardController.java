@@ -16,12 +16,12 @@ import java.util.List;
 @RequestMapping("/pard")
 public class PardController {
     private final PardService pardService;
-    private final S3UploadService s3UploadService;
+
 
     @Autowired
-    public PardController(PardService pardService, S3UploadService s3UploadService) {
+    public PardController(PardService pardService) {
         this.pardService = pardService;
-        this.s3UploadService = s3UploadService;
+
     }
 
 
@@ -36,11 +36,7 @@ public class PardController {
         ResponseDto<PardEntity> result = pardService.updatePard(dto, userId);
         return result;
     }
-    @PostMapping("/image")
-    public String image(@RequestParam(value = "image") MultipartFile image) throws IOException {
-        String result = s3UploadService.saveFile(image);
-        return result;
-    }
+
 
     @GetMapping("/search/{name}")
     public ResponseDto<PardEntity> search(@PathVariable String name) {
