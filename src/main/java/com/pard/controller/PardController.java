@@ -32,7 +32,7 @@ public class PardController {
     }
 
     @PatchMapping("/update/{userId}")
-    public ResponseDto<PardEntity> update(@RequestBody JoinDto dto, @RequestParam String userId) {
+    public ResponseDto<PardEntity> update(@RequestBody JoinDto dto, @PathVariable String userId) {
         ResponseDto<PardEntity> result = pardService.updatePard(dto, userId);
         return result;
     }

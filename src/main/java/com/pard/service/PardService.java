@@ -6,6 +6,7 @@ import com.pard.entity.PardEntity;
 import com.pard.repository.PardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,7 +49,7 @@ public class PardService {
         }
 
     }
-
+    @Transactional
     public ResponseDto<PardEntity> updatePard(JoinDto joinDto, String name) {
         if (pardRepository.existsById(name)) {
             PardEntity pard = pardRepository.findByName(name);
@@ -59,7 +60,7 @@ public class PardService {
             return ResponseDto.setSuccess("업데이트됨", pard);
         }
         else{
-            return ResponseDto.setFailed(name + "이란 사람이 Pard에 없어요!");
+            return ResponseDto.setFailed(name + " 이런 사람은 Pard에 없어요!");
         }
     }
     public ResponseDto<List<PardEntity>> findAll(){
