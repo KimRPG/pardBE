@@ -32,7 +32,7 @@ public class PardService {
         PardEntity pard = new PardEntity(joinDto);
         if (!pardRepository.existsById(name)) {
             pardRepository.save(pard);
-            return ResponseDto.setSuccess("축하한다.", pard);
+            return ResponseDto.setSuccess("PARD 합격을 축하해요.", pard);
         }else{
             return ResponseDto.setFailed("이미 가입한 이름입니다.");
         }
