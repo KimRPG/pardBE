@@ -17,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/pard")
+@CrossOrigin(origins = "http://localhost:3000/*")
 public class PardController {
     private final PardService pardService;
 
